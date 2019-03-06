@@ -70,6 +70,12 @@ vector<int[2]> board::gen(int role, bool onlyThrees = false, bool starSpread = f
 				}
 				else if (!hasNeighber(i, j, 2, 2, this->board))continue;
 
+				int scoreCom=this->scoreCom[i][j];
+				int scoreHum = this->scoreHum[i][j];
+				int max=scoreCom;
+				if (max < scoreHum)
+					max = scoreHum;
+
 
 
 
