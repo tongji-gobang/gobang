@@ -5,7 +5,7 @@
  *如果没有传入则默认计算所有四个方向，
  *如果传入值，则只计算其中一个方向的值
  */
-int scorePoint(const board &b, int px, int py, int role, int dir = UNDEFINED)
+int scorePoint(board &b, int px, int py, int role, int dir = UNDEFINED)
 {
 	int result = 0, radius = 8, empty = 0, count = 0,
 		block = 0, secondCount = 0;//另一个方向的count
@@ -72,6 +72,9 @@ int scorePoint(const board &b, int px, int py, int role, int dir = UNDEFINED)
 		}//end of for
 
 		count += secondCount;
+		b.scoreCache[role][0][px][py] = countToScore(count, block, empty);
 	}//end of if
+
+	result += b.scoreCache[role][0][px][py];
 }
 
