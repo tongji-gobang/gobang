@@ -1,13 +1,6 @@
 #include"board.h"
 
 
-/*表示在当前位置下一个棋子后的分数
-*为了性能考虑，增加了一个dir参数，
-*如果没有传入则默认计算所有四个方向，
-*如果传入值，则只计算其中一个方向的值
-*/
-#define UNDEFINED -1
-
 bool hasNeighber(int x, int y, int distance, int count,int board[BROAD_SIZE][BROAD_SIZE]) {
 	int startX = x - distance;
 	int endX = x + distance;
