@@ -4,7 +4,6 @@
 #define COM 1    //computer 
 #define HUM 2	//human 
 #define EMPTY 0 //empty 
-#define point int[2]  //定义新类型point 代表棋子坐标 本来应该用typedef的
 
 
 
@@ -25,6 +24,12 @@
 #include<iostream>
 #include <vector>
 using namespace std;
+
+
+struct point
+{
+	int pos[2];
+};
 
 class board {
 public:

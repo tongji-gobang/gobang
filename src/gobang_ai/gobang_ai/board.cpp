@@ -8,81 +8,6 @@
 */
 #define UNDEFINED -1
 
-int scorePoint(board &b, int px, int py, int role, int dir = UNDEFINED)
-{
-	int result = 0, radius = 8, empty = 0, count = 0,
-		block = 0, secondCount = 0;//另一个方向的count
-	int len = BROAD_SIZE;
-	int i, t;
-
-	//dir=0时，好像是y方向计分
-	if (dir == UNDEFINED || dir == 0) {
-		//reset
-		count = 1;
-		block = 0;
-		empty = -1;
-		secondCount = 0;
-
-		//往y增加的方向走
-		for (i = py + 1;; i++) {
-			if (i >= len) {
-				block++;
-				break;
-			}
-			t = b.board[px][i];
-			if (t == EMPTY) {
-				if (empty == -1 && i < len - 1 && b.board[px][i + 1] == role) {
-					empty = count;
-					continue;
-				}
-				else
-					break;
-			}
-			if (t == role) {
-				count++;
-				continue;
-			}
-			else {
-				block++;
-				break;
-			}
-		}//end of for
-
-		 //往y减小的方向走
-		for (i = py - 1;; i--) {
-			if (i < 0) {
-				block++;
-				break;
-			}
-			t = b.board[px][i];
-			if (t == EMPTY) {
-				if (empty == -1 && i > 0 && b.board[px][i - 1] == role) {
-					empty = 0;//注意这里是0，因为是从右往左走的
-					continue;
-				}
-				else
-					break;
-			}
-			if (t == role) {
-				secondCount++;
-				//原文是empty !== -1 && empty ++ 不知何意
-				continue;
-			}
-			else {
-				block++;
-				break;
-			}
-		}//end of for
-
-		count += secondCount;
-		b.scoreCache[role][0][px][py] = countToScore(count, block, empty);
-	}//end of if
-
-	result += b.scoreCache[role][0][px][py];
-}
-
-
-
 bool hasNeighber(int x, int y, int distance, int count,int board[BROAD_SIZE][BROAD_SIZE]) {
 	int startX = x - distance;
 	int endX = x + distance;
@@ -106,23 +31,23 @@ bool hasNeighber(int x, int y, int distance, int count,int board[BROAD_SIZE][BRO
 }
 
 
-vector<int[2]> board::gen(int role, bool onlyThrees = false, bool starSpread = false) {
+vector<point> board::gen(int role, bool onlyThrees = false, bool starSpread = false) {
 	if (this->count <= 0) {
-		vector<int[2]> a = { {7,7} };
+		vector<point> a = { {7,7} };
 		return a;
 	}
-	vector<int[2]> fives ;
-	vector<int[2]> comfours ;
-	vector<int[2]> humfours ;
-	vector<int[2]> comblockedfours ;
-	vector<int[2]> humblockedfours ;
-	vector<int[2]> comtwothrees ;
-	vector<int[2]> humtwothrees ;
-	vector<int[2]> comthrees ;
-	vector<int[2]> humthrees ;
-	vector<int[2]> comtwos ;
-	vector<int[2]> humtwos ;
-	vector<int[2]> neighbors ;
+	vector<point> fives ;
+	vector<point> comfours ;
+	vector<point> humfours ;
+	vector<point> comblockedfours ;
+	vector<point> humblockedfours ;
+	vector<point> comtwothrees ;
+	vector<point> humtwothrees ;
+	vector<point> comthrees ;
+	vector<point> humthrees ;
+	vector<point> comtwos ;
+	vector<point> humtwos ;
+	vector<point> neighbors ;
 
 
 	//将棋盘信息复制到tempBroad
@@ -158,7 +83,7 @@ vector<int[2]> board::gen(int role, bool onlyThrees = false, bool starSpread = f
 				if (max < scoreHum)
 					max = scoreHum;
 
-				int p[2] = {i,j};
+				point p = {i,j};
 
 
 				if (scoreCom >= FIVE) {

@@ -27,6 +27,9 @@
     <ClCompile Include="board.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="evaluate-point.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="board.h">
