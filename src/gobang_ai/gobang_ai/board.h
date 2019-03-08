@@ -6,6 +6,22 @@
 #define EMPTY 0 //empty 
 #define point int[2]  //定义新类型point 代表棋子坐标 本来应该用typedef的
 
+
+
+#define ONE 10
+#define	TWO  100
+#define	THREE  1000
+#define	FOUR  100000
+#define	FIVE 10000000
+#define	BLOCKED_ONE  1
+#define	BLOCKED_TWO  10
+#define BLOCKED_THREE  100
+#define	BLOCKED_FOUR  10000
+
+
+
+
+
 #include<iostream>
 #include <vector>
 using namespace std;
@@ -18,7 +34,8 @@ public:
 	vector<point> allSteps;					//好像和上面的一样的
 	int scoreCom[BROAD_SIZE][BROAD_SIZE];	//电脑棋盘各个棋子代表分数
 	int scoreHum[BROAD_SIZE][BROAD_SIZE];	//人类玩家棋盘各个棋子分数
-
+	int scoreCache[3][4][BROAD_SIZE][BROAD_SIZE];	//计分时所用到的缓存数组，四个维度分别是角色（3种）/方向（4种）/行/列
+													//至于这样定义的理由 以及具体用途暂时未知
 
 	vector<point> gen(int role, bool onlyThrees = false, bool starSpread = false);
 
