@@ -57,4 +57,7 @@ public:
 	int Negmax(vector<struct point>& candidates, int role, int depth, int alpha, int beta );
 	struct point Deeping( vector<struct point>& candidates, int role, int depth );
 	struct point DepthSearchAll( int role, int depth );
+
+	// io
+	int CommandPrint() const;
 };
