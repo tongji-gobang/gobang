@@ -44,4 +44,10 @@ public:
 
 	vector<point> gen(int role, bool onlyThrees = false, bool starSpread = false);
 
+	//下子，无返回
+	void put(point p, int role);
+
+	//移除棋子，无返回
+	void remove(point p);
+
 };
