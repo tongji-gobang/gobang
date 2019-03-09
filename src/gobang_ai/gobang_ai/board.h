@@ -44,4 +44,17 @@ public:
 
 	vector<point> gen(int role, bool onlyThrees = false, bool starSpread = false);
 
+	//下子，无返回
+	void put(point p, int role);
+
+	//移除棋子，无返回
+	void remove(point p);
+
+	void backward();
+	void forward();
+
+	// Minimax Search
+	int Negmax(vector<struct point>& candidates, int role, int depth, int alpha, int beta );
+	struct point Deeping( vector<struct point>& candidates, int role, int depth );
+	struct point DepthSearchAll( int role, int depth );
 };

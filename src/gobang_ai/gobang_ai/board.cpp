@@ -205,3 +205,32 @@ vector<point> board::gen(int role, bool onlyThrees = false, bool starSpread = fa
 
 
 }
+
+// 下子函数，需要zobrist函数
+void board::put(point p, int role)
+{
+	//p.role = role
+	
+	printf("%s put [%d,%d]", (role == COM ? "Com" : "Hum"), p.pos[0], p.pos[1]);
+	board[p.pos[0]][p.pos[1]] = role;//在棋盘上做好标记，说是role下的
+	zobrist.go(p[0], p[1], role);//未实现
+	updateScore(p);//未实现
+	currentSteps.push_back(p);
+	allSteps.push_back(p);
+	//stepsTail = [];
+	count++;
+
+}
+
+void board::remove(point p)
+{
+	int role = board[p.pos[0]][p.pos[1]];//看是悔谁的棋
+	printf("%s remove [%d,%d]", (role == COM ? "Com" : "Hum"), p.pos[0], p.pos[1]);
+	zobrist.go(p[0], p[1], role);//未实现
+	updateScore(p);//未实现
+	currentSteps.pop_back();
+	allSteps.pop_back();
+	//stepsTail = [];
+	count--;
+
+}
