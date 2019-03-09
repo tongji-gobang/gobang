@@ -41,6 +41,7 @@ public:
 	int scoreHum[BROAD_SIZE][BROAD_SIZE];	//人类玩家棋盘各个棋子分数
 	int scoreCache[3][4][BROAD_SIZE][BROAD_SIZE];	//计分时所用到的缓存数组，四个维度分别是角色（3种）/方向（4种）/行/列
 													//至于这样定义的理由 以及具体用途暂时未知
+	vector<point> stepsTail;				// 用来存储悔棋步骤，以便放弃悔棋，重新加载棋盘（大概是这样的功能）
 
 	vector<point> gen(int role, bool onlyThrees = false, bool starSpread = false);
 

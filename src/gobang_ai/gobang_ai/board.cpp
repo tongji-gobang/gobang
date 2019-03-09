@@ -234,3 +234,34 @@ void board::remove(point p)
 	count--;
 
 }
+
+/*
+	* »ÚÆå
+*/
+void board::backward()
+{
+	if ( this->allSteps.size() < 2 )
+		return ;
+	for ( int i = 0; i < 2; ++i )
+	{
+		auto s = this->allSteps[this->allSteps.size() - 1];
+		this->remove(s);
+		this->stepsTail.push_back(s);		// stepsTail
+	}
+}
+
+/*
+	* Ç°½ø
+*/
+void board::forward()
+{
+	if ( this->stepsTail.size() < 2 )
+		return ;
+
+	for ( int i = 0; i < 2; ++i )
+	{
+		auto s = this->stepsTail[this->stepsTail.size() - 1];
+		this->stepsTail.pop_back();
+		this->put( s, s.role );
+	}
+}
