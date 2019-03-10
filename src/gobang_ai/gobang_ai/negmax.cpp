@@ -1,22 +1,53 @@
 #include <vector>
+#include <climits>
+#include <algorithm>
 
 #include "board.h"
 
+
+#define PInfinity INT_MAX
+#define NInfinity -INT_MAX
+
 using PointSet = vector<struct point>;
+using CandidateSet = vector<struct candidate>;
 /*
     初步想法，待搜索的位置的存储
 */
-int board::Negmax(PointSet& candidates, int role, int depth, int alpha, int beta )
+int board::Negmax(CandidateSet& candidates, int role, int depth, int alpha, int beta )
+{
+    this->currentSteps.clear();
+
+    for ( int i = 0; i < candidates.size(); ++i )
+    {
+        auto p = candidates[i];
+        this->put( p, role );
+        PointSet steps(1, p);
+
+        auto v = Pruning( depth - 1, -beta, -alpha, role == COM ? HUM : COM, 1, steps, 0 );
+
+        v.score = -v.score;
+        alpha = max( alpha, v.score );
+
+        this->remove( p );
+        p = v;
+    }
+    return alpha;
+}
+
+struct candidate board::Pruning( int depth, int alpha, int beta, int role, int step, PointSet& steps, int spread )
+{
+    // zobirst 部分  暂时放下
+
+    auto score = this->evaluate( role );
+    
+}
+
+bool board::cache( int depth, const CandidateSet& score )
 {
 
 }
 
-auto Pruning( int depth, int alpha, int beta, int role )
-{
-
-}
-
-struct point board::Deeping( PointSet& candidates, int role, int depth )
+struct point board::Deeping( CandidateSet& candidates, int role, int depth )
 {
     // 教程中加了超时计时器，暂时忽略
     int MaxScore;
@@ -28,16 +59,30 @@ struct point board::Deeping( PointSet& candidates, int role, int depth )
             break;
     }
 
-    
+    // 美化暂时未明白
 
+    sort( candidates.begin(), candidates.end() );
+    
+    auto result = candidates.at(0);
+
+    //中间暂未明白
+
+    return result;
 }
 struct point board::DepthSearchAll( int role, int depth )
 {
-    // 教程源码中写法： role = role || R.com --- 这句恒为真，不知何意
-    role = COM;
+    // js中role可能未定义，这里暂时不用管
 
-    PointSet candidates = gen( role );  // vector<point>
+    PointSet temp = gen( role );
+    CandidateSet candidates;
+
+    auto ConCandidates = [] ( CandidateSet& candidates, const PointSet& temp )
+    {
+        for ( int i = 0; i < temp.size(); ++i )
+            candidates.push_back( candidate(temp[i]) );
+    } ;
+
+    ConCandidates( candidates, temp );
 
     return Deeping( candidates, role, depth );
 }
-

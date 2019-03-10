@@ -38,6 +38,23 @@ struct point
 
 };
 
+struct candidate : public point
+{
+	int step;
+	vector<struct point> steps;
+
+	candidate( const struct point& p )
+	{
+		this->pos[0] = p.pos[0];
+		this->pos[1] = p.pos[1];
+		this->score = p.score;
+		this->scoreCom = p.scoreCom;
+		this->scoreHum = p.scoreHum;
+		this->role = p.role;
+		step = 0;
+	}
+};
+
 class board {
 public:
 	int board[BROAD_SIZE][BROAD_SIZE]; 	   //棋盘二维数组
@@ -75,8 +92,11 @@ public:
 	void forward();
 
 	// Minimax Search
-	int Negmax(vector<struct point>& candidates, int role, int depth, int alpha, int beta );
-	struct point Deeping( vector<struct point>& candidates, int role, int depth );
+	int Negmax(vector<struct candidate>& candidates, int role, int depth, int alpha, int beta );
+	//原教程r函数
+	struct candidate Pruning( int depth, int alpha, int beta, int role, int step, vector<struct point>& steps, int spread );
+	bool cache( int depth, const vector<struct candidate>& score );
+	struct point Deeping( vector<struct candidate>& candidates, int role, int depth );
 	struct point DepthSearchAll( int role, int depth );
 
 	// io
