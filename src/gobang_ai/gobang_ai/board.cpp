@@ -225,7 +225,107 @@ vector<point> board::gen(int role, bool onlyThrees = false, bool starSpread = fa
 	
 }
 
-// 下子函数，需要zobrist函数
+
+/*
+	* 更新一个点一个方向上的分数
+*/
+void board::updateScoreDir(int x, int y, int dir)
+{
+	int role = board[x][y];
+	if (role != R.reverse(R.com)) {
+		int cs = scorePoint(this, x, y, R.com, dir);
+		scoreCom[x][y] = cs;
+		statistic.table[x][y] += cs;
+	}
+	else
+		scoreCom[x][y] = 0;
+	if (role != R.reverse(R.hum)) {
+		int hs = scorePoint(this, x, y, R.hum, dir);
+		scoreHum[x][y] = hs;
+		statistic.table[x][y] += hs;
+	}
+	else
+		scoreHum[x][y] = 0;
+}
+
+/*
+	* 更新一个点附近的分数
+*/
+void board::updateScore(point p)
+{
+	int radius = 4;
+	int len = BROAD_SIZE;
+
+	// 无论是不是空位 都需要更新
+	// -
+	for (int i = -radius; i <= radius; i++) {
+		int x = p.pos[0];
+		int y = p.pos[1] + i;
+		if (y < 0) continue;
+		if (y >= len) break;
+		updateScoreDir(x, y, 0);
+	}
+
+	// |
+	for (int i = -radius; i <= radius; i++) {
+		int x = p.pos[0] + i;
+		int y = p.pos[1];
+		if (x < 0)
+			continue;
+		if (x >= len)
+			break;
+		updateScoreDir(x, y, 1);
+	}
+
+
+	for (int i = -radius; i <= radius; i++) {
+		int x = p.pos[0] + i;
+		int y = p.pos[1] + i;
+		if (x < 0 || y < 0)
+			continue;
+		if (x >= len || y >= len)
+			break;
+		updateScoreDir(x, y, 2);
+	}
+
+	// /
+	for (int i = -radius; i <= radius; i++) {
+		int x = p.pos[0] + i;
+		int y = p.pos[1] - i;
+		if (x < 0 || y < 0)
+			continue;
+		if (x >= len || y >= len)
+			continue;
+		updateScoreDir(x, y, 3);
+	}
+
+}
+
+/*
+	* 棋面估分函数
+*/
+int board::evaluate(int role)
+{
+	int comMaxScore = 0;
+	int humMaxScore = 0;
+
+	for (int i = 0; i < BROAD_SIZE; i++) {
+		for (int j = 0; j < BROAD_SIZE; j++) {
+			if (board[i][j] == COM)
+				comMaxScore += scoreCom[i][j];
+			else if (board[i][j] == HUM)
+				humMaxScore += scoreHum[i][j];
+			else
+				;
+		}
+	}
+
+	return (role == COM ? 1 : -1) * (comMaxScore - humMaxScore);
+}
+
+/*
+	* 下子函数，需要zobrist函数
+*/
 void board::put(point p, int role)
 {
 	//p.role = role
@@ -241,6 +341,9 @@ void board::put(point p, int role)
 
 }
 
+/*
+	* 移除棋子
+*/
 void board::remove(point p)
 {
 	int role = board[p.pos[0]][p.pos[1]];//看是悔谁的棋
