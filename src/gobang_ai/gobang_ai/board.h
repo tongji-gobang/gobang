@@ -6,7 +6,7 @@
 #define EMPTY 0 //empty 
 
 
-
+//各种棋型代表的分数
 #define ONE 10
 #define	TWO  100
 #define	THREE  1000
@@ -23,12 +23,18 @@
 
 #include<iostream>
 #include <vector>
+#include<algorithm>
 using namespace std;
 
 
 struct point
 {
-	int pos[2];
+	int pos[2];		//该点所在位置
+	int scoreCom;	//若这一点放电脑所执棋得分
+	int scoreHum;	//若这一点放人类所执棋得分
+	int score;		//scoreCom和scoreHum中更大的那个
+	int role;		//此位置若有棋 role则是该位置棋的颜色
+
 };
 
 class board {
@@ -43,6 +49,8 @@ public:
 													//至于这样定义的理由 以及具体用途暂时未知
 	vector<point> stepsTail;				// 用来存储悔棋步骤，以便放弃悔棋，重新加载棋盘（大概是这样的功能）
 
+
+	//生成着棋点
 	vector<point> gen(int role, bool onlyThrees = false, bool starSpread = false);
 
 	//下子，无返回

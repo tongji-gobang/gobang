@@ -1,6 +1,6 @@
 #include"board.h"
-
-
+#include"zobrist.h"
+//查找某一点附近是否有相同颜色的棋子
 bool hasNeighber(int x, int y, int distance, int count,int board[BROAD_SIZE][BROAD_SIZE]) {
 	int startX = x - distance;
 	int endX = x + distance;
@@ -23,12 +23,18 @@ bool hasNeighber(int x, int y, int distance, int count,int board[BROAD_SIZE][BRO
 	return false;
 }
 
+bool com(const point &a, const point &b) {
+	return a.score > b.score;
+}
+
 
 vector<point> board::gen(int role, bool onlyThrees = false, bool starSpread = false) {
 	if (this->count <= 0) {
 		vector<point> a = { {7,7} };
 		return a;
 	}
+
+	//用于存储满足各个棋型的点
 	vector<point> fives ;
 	vector<point> comfours ;
 	vector<point> humfours ;
@@ -76,8 +82,12 @@ vector<point> board::gen(int role, bool onlyThrees = false, bool starSpread = fa
 				if (max < scoreHum)
 					max = scoreHum;
 
-				point p = {i,j};
-
+				point p;
+				p.pos[0] =  i;
+				p.pos[1] = j;
+				p.scoreCom = scoreCom;
+				p.scoreHum = scoreHum;
+				p.role = EMPTY;
 
 				if (scoreCom >= FIVE) {
 					fives.push_back(p);
@@ -192,7 +202,7 @@ vector<point> board::gen(int role, bool onlyThrees = false, bool starSpread = fa
 
 
 
-
+	//
 	vector<point>twos;
 	if (role == COM) {
 		twos.assign(comtwos.begin(), comtwos.end());
@@ -203,7 +213,16 @@ vector<point> board::gen(int role, bool onlyThrees = false, bool starSpread = fa
 		twos.insert(twos.begin(), comtwos.begin(), comtwos.end());
 	}
 
+	sort(twos.begin(), twos.end(), com);
 
+	if (twos.size()) {
+		result.insert(result.end(), twos.begin(), twos.end());
+	}
+	else
+		result.insert(result.end(), neighbors.begin(), neighbors.end());
+
+
+	
 }
 
 // 下子函数，需要zobrist函数
