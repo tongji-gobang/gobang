@@ -45,12 +45,22 @@ public:
 
 	vector<point> gen(int role, bool onlyThrees = false, bool starSpread = false);
 
+	//分数更新，一个点附近的
+	void updateScore(point p);
+
+	//分数更新，一个方向的(js支持内部定义函数，源代码为内部定义在updateScore中，但C不行，故额外定义
+	void updateScoreDir(int x, int y, int dir);
+
+	//棋面估分，只算当前分
+	int evaluate(int role);
+
 	//下子，无返回
 	void put(point p, int role);
 
 	//移除棋子，无返回
 	void remove(point p);
 
+	//前进，悔棋 
 	void backward();
 	void forward();
 
