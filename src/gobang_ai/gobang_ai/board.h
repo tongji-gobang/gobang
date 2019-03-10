@@ -50,6 +50,7 @@ public:
 													//至于这样定义的理由 以及具体用途暂时未知
 	vector<point> stepsTail;				// 用来存储悔棋步骤，以便放弃悔棋，重新加载棋盘（大概是这样的功能）
 
+	int table[BROAD_SIZE][BROAD_SIZE];		//把statistic的table移入此处（和candidate相关）
 
 	//生成着棋点
 	vector<point> gen(int role, bool onlyThrees = false, bool starSpread = false);
@@ -80,8 +81,12 @@ public:
 
 	// io
 	int CommandPrint() const;
+
+	
+
 };
 
 //evaluate-point中两个函数
 int scorePoint(board &b, const int px, const int py, const int role, const int dir = UNDEFINED);
 int countToScore(int count, int block, int empty = UNDEFINED);
+
