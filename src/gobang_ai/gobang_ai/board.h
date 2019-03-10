@@ -17,6 +17,7 @@
 #define BLOCKED_THREE  100
 #define	BLOCKED_FOUR  10000
 
+#define UNDEFINED -2	//evaluate-point中函数的默认参数，表示未传参
 
 
 
@@ -80,3 +81,7 @@ public:
 	// io
 	int CommandPrint() const;
 };
+
+//evaluate-point中两个函数
+int scorePoint(board &b, const int px, const int py, const int role, const int dir = UNDEFINED);
+int countToScore(int count, int block, int empty = UNDEFINED);

@@ -1,11 +1,11 @@
 #include"board.h"
-#define UNDEFINED -2
+
 /*表示在当前位置下一个棋子后的分数
  *为了性能考虑，增加了一个dir参数，
  *如果没有传入则默认计算所有四个方向，
  *如果传入值，则只计算其中一个方向的值
  */
-int scorePoint(board &b, const int px, const int py, const int role, const int dir = UNDEFINED)
+int scorePoint(board &b, const int px, const int py, const int role, const int dir)
 {
 	int result = 0, radius = 8, empty = 0, count = 0,
 		block = 0, secondCount = 0;//另一个方向的count
@@ -284,7 +284,7 @@ int scorePoint(board &b, const int px, const int py, const int role, const int d
 	return result;
 }
 
-int countToScore(int count, int block, int empty = UNDEFINED)
+int countToScore(int count, int block, int empty)
 {
 	if (empty == UNDEFINED)
 		empty = 0;
