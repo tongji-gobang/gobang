@@ -232,17 +232,17 @@ vector<point> board::gen(int role, bool onlyThrees = false, bool starSpread = fa
 void board::updateScoreDir(int x, int y, int dir)
 {
 	int role = board[x][y];
-	if (role != R.reverse(R.com)) {
-		int cs = scorePoint(this, x, y, R.com, dir);
+	if (role != 2) {
+		int cs = scorePoint(*this, x, y,COM, dir);
 		scoreCom[x][y] = cs;
-		statistic.table[x][y] += cs;
-	}
+		table[x][y] += cs;
+	} 
 	else
 		scoreCom[x][y] = 0;
-	if (role != R.reverse(R.hum)) {
-		int hs = scorePoint(this, x, y, R.hum, dir);
+	if (role != 1) {
+		int hs = scorePoint(*this, x, y, HUM, dir);
 		scoreHum[x][y] = hs;
-		statistic.table[x][y] += hs;
+		table[x][y] += hs;
 	}
 	else
 		scoreHum[x][y] = 0;
