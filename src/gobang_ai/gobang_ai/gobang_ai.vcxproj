@@ -116,9 +116,11 @@
     <ClCompile Include="io.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="negmax.cpp" />
+    <ClCompile Include="zobrist.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="board.h" />
+    <ClInclude Include="zobrist.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
