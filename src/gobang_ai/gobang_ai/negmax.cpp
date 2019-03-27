@@ -40,6 +40,15 @@ struct candidate board::Pruning( int depth, int alpha, int beta, int role, int s
 
     auto score = this->evaluate( role );
     
+    struct candidate leaf;
+    leaf.score = score;
+    leaf.step = step;
+    leaf.steps = steps;
+
+    // 暂时忽略每次深度遍历的结点数
+
+    if ( depth <= 0 || score >= FIVE || score <= -FIVE )
+        return leaf;
 }
 
 bool board::cache( int depth, const CandidateSet& score )
